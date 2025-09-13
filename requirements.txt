@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+pymongo
+pydantic[email]
+bcrypt
+python-jose[cryptography]
+python-dotenv
+google-genai
+neo4j
+streamlit-geolocation
