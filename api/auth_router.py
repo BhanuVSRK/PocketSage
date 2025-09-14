@@ -1,3 +1,5 @@
+# api/auth_router.py
+
 from fastapi import APIRouter, HTTPException, status, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from pymongo.collection import Collection
@@ -15,11 +17,11 @@ router = APIRouter(
 @router.post("/signup", response_model=StandardResponse[UserBase], status_code=status.HTTP_201_CREATED)
 async def signup(
     user: UserCreate,
-    collections: tuple[Collection, Collection] = Depends(get_db_collections)
+    collections: tuple = Depends(get_db_collections) # Changed for clarity
 ):
-    user_collection, _ = collections    
+    # <-- FIX: Unpack three values, ignoring the last two
+    user_collection, _, _ = collections    
     
-    # Check for existing user by email or username
     if user_collection.find_one({"$or": [{"email": user.email}, {"username": user.username}]}):
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
@@ -43,11 +45,11 @@ async def signup(
 @router.post("/login", response_model=StandardResponse[Token])
 async def login(
     form_data: OAuth2PasswordRequestForm = Depends(),
-    collections: tuple[Collection, Collection] = Depends(get_db_collections)
+    collections: tuple = Depends(get_db_collections) # Changed for clarity
 ):
-    user_collection, _ = collections
+    # <-- FIX: Unpack three values, ignoring the last two
+    user_collection, _, _ = collections
     
-    # Users can log in with either their email or username
     user = user_collection.find_one({"$or": [{"email": form_data.username}, {"username": form_data.username}]})
     
     if not user or not verify_password(form_data.password, user["hashed_password"]):

@@ -1,10 +1,11 @@
-from datetime import datetime
+# api/chat_router.py
+
+from datetime import datetime, timezone
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status
 from bson import ObjectId
 from pymongo.collection import Collection
 
-# Import the new schemas
 from schemas import (
     ChatRequest, ChatSession, UserInDB, ChatMessage, StandardResponse, 
     ChatTurnResponse, RenameChatRequest, SimpleMessageResponse
@@ -22,11 +23,13 @@ router = APIRouter(
 async def handle_chat(
     request: ChatRequest,
     current_user: UserInDB = Depends(get_current_user),
-    collections: tuple[Collection, Collection] = Depends(get_db_collections)
+    collections: tuple = Depends(get_db_collections)
 ):
     user_id = str(current_user.id)
-    _, chat_collection = collections
+    # <-- FIX: Unpack three values, keeping the second one
+    _, chat_collection, _ = collections
     
+    # ... (rest of the function is unchanged)
     history = []
     chat_id = request.chat_id
     current_turn_number = 1
@@ -39,7 +42,8 @@ async def handle_chat(
             raise HTTPException(status.HTTP_404_NOT_FOUND, "Chat session not found.")
         history = [ChatMessage(**msg) for msg in chat_data.get("history", [])]
         if history:
-            current_turn_number = (history[-1].turn_number or 0) + 1
+            last_turn = history[-1].turn_number or 0
+            current_turn_number = last_turn + 1
 
     ai_content, citations = await medical_chat_service.get_ai_response(
         prompt=request.prompt, 
@@ -52,22 +56,19 @@ async def handle_chat(
 
     history_dicts = [msg.model_dump(exclude_none=True) for msg in history]
     
-    # --- UPDATED LOGIC ---
     if chat_id:
-        # Update existing chat and set the 'updated_at' timestamp
         chat_collection.update_one(
             {"_id": ObjectId(chat_id)},
-            {"$set": {"history": history_dicts, "updated_at": datetime.now(datetime.UTC)}}
+            {"$set": {"history": history_dicts, "updated_at": datetime.now(timezone.utc)}}
         )
         final_chat_id = chat_id
     else:
-        # Create new chat with a default name and timestamps
         new_chat_doc = {
             "user_id": user_id, 
             "history": history_dicts,
-            "chat_name": request.prompt[:50], # Use first 50 chars of prompt as name
-            "created_at": datetime.now(datetime.UTC),
-            "updated_at": datetime.now(datetime.UTC)
+            "chat_name": request.prompt[:50],
+            "created_at": datetime.now(timezone.utc),
+            "updated_at": datetime.now(timezone.utc)
         }
         result = chat_collection.insert_one(new_chat_doc)
         final_chat_id = str(result.inserted_id)
@@ -80,13 +81,14 @@ async def handle_chat(
     )
     return StandardResponse(data=response_data, message="Response generated.")
 
+
 @router.get("/history", response_model=StandardResponse[List[ChatSession]])
 async def get_all_chats(
     current_user: UserInDB = Depends(get_current_user),
-    collections: tuple[Collection, Collection] = Depends(get_db_collections)
+    collections: tuple = Depends(get_db_collections)
 ):
-    _, chat_collection = collections
-    # --- UPDATED QUERY: Sort by 'updated_at' descending ---
+    # <-- FIX: Unpack three values
+    _, chat_collection, _ = collections
     chats_cursor = chat_collection.find(
         {"user_id": str(current_user.id)}
     ).sort("updated_at", -1)
@@ -97,9 +99,10 @@ async def get_all_chats(
 async def get_single_chat(
     chat_id: str,
     current_user: UserInDB = Depends(get_current_user),
-    collections: tuple[Collection, Collection] = Depends(get_db_collections)
+    collections: tuple = Depends(get_db_collections)
 ):
-    _, chat_collection = collections
+    # <-- FIX: Unpack three values
+    _, chat_collection, _ = collections
     chat_data = chat_collection.find_one(
         {"_id": ObjectId(chat_id), "user_id": str(current_user.id)}
     )
@@ -107,18 +110,18 @@ async def get_single_chat(
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Chat not found")
     return StandardResponse(data=ChatSession(**chat_data), message="Retrieved chat history.")
 
-# --- NEW ENDPOINT: Rename Chat ---
 @router.patch("/history/{chat_id}/rename", response_model=StandardResponse[RenameChatRequest])
 async def rename_chat(
     chat_id: str,
     request: RenameChatRequest,
     current_user: UserInDB = Depends(get_current_user),
-    collections: tuple[Collection, Collection] = Depends(get_db_collections)
+    collections: tuple = Depends(get_db_collections)
 ):
-    _, chat_collection = collections
+    # <-- FIX: Unpack three values
+    _, chat_collection, _ = collections
     result = chat_collection.update_one(
         {"_id": ObjectId(chat_id), "user_id": str(current_user.id)},
-        {"$set": {"chat_name": request.new_name, "updated_at": datetime.now(datetime.UTC)}}
+        {"$set": {"chat_name": request.new_name, "updated_at": datetime.now(timezone.utc)}}
     )
 
     if result.matched_count == 0:
@@ -126,14 +129,14 @@ async def rename_chat(
     
     return StandardResponse(data=request, message="Chat renamed successfully.")
 
-# --- NEW ENDPOINT: Delete Chat ---
 @router.delete("/history/{chat_id}", response_model=StandardResponse[SimpleMessageResponse])
 async def delete_chat(
     chat_id: str,
     current_user: UserInDB = Depends(get_current_user),
-    collections: tuple[Collection, Collection] = Depends(get_db_collections)
+    collections: tuple = Depends(get_db_collections)
 ):
-    _, chat_collection = collections
+    # <-- FIX: Unpack three values
+    _, chat_collection, _ = collections
     result = chat_collection.delete_one(
         {"_id": ObjectId(chat_id), "user_id": str(current_user.id)}
     )

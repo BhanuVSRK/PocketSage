@@ -1,9 +1,10 @@
+# neo4j_driver.py
 from neo4j import GraphDatabase
 from config import settings
 from typing import Dict, Any
+from datetime import datetime # <-- Make sure datetime is imported
 
 class Neo4jDriver:
-    # ... (class definition is unchanged)
     def __init__(self, uri, user, password):
         try:
             self.driver = GraphDatabase.driver(uri, auth=(user, password))
@@ -37,16 +38,10 @@ def create_user_node(email: str, full_name: str, username: str):
     neo4j_driver.execute_query(query, parameters)
     print(f"Created or merged User node for: {email}")
 
-# --- NEW FUNCTION ---
 def update_user_node_properties(email: str, properties: Dict[str, Any]):
-    """
-    Updates a User node with a dictionary of new properties.
-    This is efficient as it only sends one query.
-    """
     if not properties:
         print("No properties to update in Neo4j.")
         return
-
     query = (
         "MERGE (u:User {email: $email}) "
         "SET u += $props"
@@ -54,6 +49,37 @@ def update_user_node_properties(email: str, properties: Dict[str, Any]):
     parameters = {"email": email, "props": properties}
     neo4j_driver.execute_query(query, parameters)
     print(f"Updated Neo4j properties for user: {email}")
+
+# --- THIS IS THE NEW FUNCTION THAT WAS MISSING ---
+def create_appointment_node_and_link_to_user(
+    email: str,
+    appointment_id: str,
+    doctor_name: str,
+    specialization: str,
+    appointment_time: datetime
+):
+    """
+    Creates an Appointment node and links it to an existing User node.
+    """
+    query = (
+        "MATCH (u:User {email: $email}) "
+        "MERGE (a:Appointment {id: $appointment_id}) "
+        "ON CREATE SET "
+        "  a.doctor = $doctor_name, "
+        "  a.specialization = $specialization, "
+        "  a.appointmentTime = $appointment_time, "
+        "  a.createdAt = timestamp() "
+        "MERGE (u)-[:HAS_APPOINTMENT]->(a)"
+    )
+    parameters = {
+        "email": email,
+        "appointment_id": appointment_id,
+        "doctor_name": doctor_name,
+        "specialization": specialization,
+        "appointment_time": appointment_time.isoformat()
+    }
+    neo4j_driver.execute_query(query, parameters)
+    print(f"Created or merged Appointment node for user: {email}")
 
 def close_neo4j_driver():
     neo4j_driver.close()

@@ -1,3 +1,5 @@
+# auth.py
+
 from datetime import datetime, timedelta, timezone
 from typing import Optional
 import bcrypt
@@ -7,7 +9,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pymongo.collection import Collection
 
 from config import settings
-from database import get_db_collections # Import the dependency function
+from database import get_db_collections
 from schemas import TokenData, UserInDB
 
 auth_scheme = HTTPBearer()
@@ -27,12 +29,13 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
 
-# This dependency now correctly depends on another dependency
 async def get_current_user(
     token: HTTPAuthorizationCredentials = Depends(auth_scheme),
-    collections: tuple[Collection, Collection] = Depends(get_db_collections)
+    collections: tuple = Depends(get_db_collections)
 ) -> UserInDB:
-    user_collection, _ = collections
+    # <-- THE FIX IS HERE: Unpack three values, not two
+    user_collection, _, _ = collections
+    
     credentials_exception = HTTPException(
         status_code=401,
         detail="Could not validate credentials",

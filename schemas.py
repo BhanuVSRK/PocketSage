@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List, Optional, TypeVar, Generic
+from typing import List, Optional, TypeVar, Generic, Tuple, Dict, Any
 from bson import ObjectId
 from pydantic import BaseModel, Field, EmailStr
 
@@ -109,3 +109,34 @@ class RenameChatRequest(BaseModel):
 
 class SimpleMessageResponse(BaseModel):
     message: str
+
+class AppointmentBase(BaseModel):
+    doctor_name: str = Field(..., min_length=2)
+    specialization: str
+    appointment_time: datetime
+
+class AppointmentCreate(AppointmentBase):
+    pass
+
+class AppointmentRecord(BaseModel):
+    transcript: Optional[str] = None
+    summary: Optional[str] = None
+    structured_summary: Optional[Dict[str, Any]] = None # <-- MODIFIED: Use Dict for JSON object
+    audio_path: Optional[str] = None
+    processed_at: Optional[datetime] = None
+
+class AppointmentInDB(AppointmentBase, AppointmentRecord):
+    id: PyObjectId = Field(alias="_id")
+    user_id: str
+    created_at: datetime = Field(default_factory=datetime.now)
+
+    class Config:
+        populate_by_name = True
+        arbitrary_types_allowed = True
+        json_encoders = {ObjectId: str}
+
+class TranscriptionResponse(BaseModel):
+    appointment_id: str
+    transcript: str
+    summary: str
+    structured_summary: Dict[str, Any] 

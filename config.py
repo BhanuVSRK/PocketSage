@@ -22,5 +22,8 @@ class Settings:
     GEMINI_TOP_P: float = float(os.getenv("GEMINI_TOP_P", 0.9))
     GEMINI_TOP_K: int = int(os.getenv("GEMINI_TOP_K", 40))
     GEMINI_THINKING_BUDGET: int = int(os.getenv("GEMINI_THINKING_BUDGET", -1))
+    ASSEMBLYAI_API_KEY: str = os.getenv("ASSEMBLYAI_API_KEY")
+
+    AUDIO_FILES_DIR: str = "audio_records"
 
 settings = Settings()
