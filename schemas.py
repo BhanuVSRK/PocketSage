@@ -111,12 +111,19 @@ class SimpleMessageResponse(BaseModel):
     message: str
 
 class AppointmentBase(BaseModel):
-    doctor_name: str = Field(..., min_length=2)
-    specialization: str
+    doctor_name: Optional[str] = Field(None, min_length=1)
+    specialization: Optional[str] = None
+    reason: Optional[str] = Field(None, max_length=500)
     appointment_time: datetime
 
 class AppointmentCreate(AppointmentBase):
     pass
+
+class AppointmentUpdate(BaseModel):
+    doctor_name: Optional[str] = Field(None, min_length=1)
+    specialization: Optional[str] = None
+    reason: Optional[str] = Field(None, max_length=500)
+    appointment_time: Optional[datetime] = None
 
 class AppointmentRecord(BaseModel):
     transcript: Optional[str] = None
@@ -139,4 +146,4 @@ class TranscriptionResponse(BaseModel):
     appointment_id: str
     transcript: str
     summary: str
-    structured_summary: Dict[str, Any] 
+    structured_summary: Dict[str, Any]

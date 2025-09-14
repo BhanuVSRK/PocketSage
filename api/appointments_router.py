@@ -8,7 +8,7 @@ from bson import ObjectId
 from pymongo.collection import Collection
 
 from schemas import (
-    AppointmentCreate, AppointmentInDB, UserInDB, StandardResponse,
+    AppointmentCreate, AppointmentUpdate, AppointmentInDB, UserInDB, StandardResponse,
     SimpleMessageResponse, TranscriptionResponse
 )
 from auth import get_current_user
@@ -63,6 +63,74 @@ async def get_user_appointments(
     appointments = appointment_collection.find({"user_id": str(current_user.id)}).sort("appointment_time", -1)
     appointment_list = [AppointmentInDB(**appt) for appt in appointments]
     return StandardResponse(data=appointment_list)
+
+@router.patch("/{appointment_id}", response_model=StandardResponse[AppointmentInDB])
+async def update_appointment(
+    appointment_id: str,
+    appointment_update: AppointmentUpdate,
+    current_user: UserInDB = Depends(get_current_user),
+    collections: tuple = Depends(get_db_collections)
+):
+    """Update appointment details"""
+    _, _, appointment_collection = collections
+    
+    if not ObjectId.is_valid(appointment_id):
+        raise HTTPException(status.HTTP_400_BAD_REQUEST, "Invalid appointment ID.")
+    
+    # Check if appointment exists and belongs to user
+    existing_appointment = appointment_collection.find_one(
+        {"_id": ObjectId(appointment_id), "user_id": str(current_user.id)}
+    )
+    if not existing_appointment:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "Appointment not found.")
+    
+    # Prepare update data (exclude None values)
+    update_data = appointment_update.model_dump(exclude_unset=True, exclude_none=True)
+    
+    if not update_data:
+        raise HTTPException(status.HTTP_400_BAD_REQUEST, "No update data provided.")
+    
+    # Update the appointment
+    appointment_collection.update_one(
+        {"_id": ObjectId(appointment_id)},
+        {"$set": update_data}
+    )
+    
+    # Return updated appointment
+    updated_appointment = appointment_collection.find_one({"_id": ObjectId(appointment_id)})
+    return StandardResponse(data=AppointmentInDB(**updated_appointment), message="Appointment updated successfully.")
+
+@router.delete("/{appointment_id}", response_model=StandardResponse[SimpleMessageResponse])
+async def delete_appointment(
+    appointment_id: str,
+    current_user: UserInDB = Depends(get_current_user),
+    collections: tuple = Depends(get_db_collections)
+):
+    """Delete an appointment"""
+    _, _, appointment_collection = collections
+    
+    if not ObjectId.is_valid(appointment_id):
+        raise HTTPException(status.HTTP_400_BAD_REQUEST, "Invalid appointment ID.")
+    
+    # Delete appointment (only if it belongs to the user)
+    result = appointment_collection.delete_one(
+        {"_id": ObjectId(appointment_id), "user_id": str(current_user.id)}
+    )
+    
+    if result.deleted_count == 0:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "Appointment not found.")
+    
+    # Also delete the audio file if it exists
+    try:
+        audio_dir = os.path.join(settings.AUDIO_FILES_DIR, str(current_user.id), appointment_id)
+        if os.path.exists(audio_dir):
+            import shutil
+            shutil.rmtree(audio_dir)
+    except Exception as e:
+        # Log the error but don't fail the deletion
+        print(f"Warning: Could not delete audio files for appointment {appointment_id}: {e}")
+    
+    return StandardResponse(data={"message": f"Appointment deleted successfully."}, message="Appointment deleted.")
 
 # ... (the rest of the file with the process_appointment_audio function)
 @router.post("/{appointment_id}/process", response_model=StandardResponse[TranscriptionResponse])

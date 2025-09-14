@@ -86,8 +86,61 @@ def find_hospitals_from_backend(token, lat, lon):
     url = f"{BASE_URL}/hospitals/nearby"
     headers = {"Authorization": f"Bearer {token}"}
     payload = {"latitude": lat, "longitude": lon}
-    response = requests.post(url, json=payload, headers=headers)
-    return response.json() if response.status_code == 200 else None
+    
+    try:
+        print(f"Making API call to: {url}")
+        print(f"Payload: {payload}")
+        response = requests.post(url, json=payload, headers=headers, timeout=30)
+        print(f"Response status: {response.status_code}")
+        print(f"Response content: {response.text[:500]}...")  # First 500 chars
+        
+        if response.status_code == 200:
+            return response.json()
+        else:
+            print(f"API Error: {response.status_code} - {response.text}")
+            return {"status": False, "error": f"HTTP {response.status_code}: {response.text}"}
+            
+    except requests.exceptions.Timeout:
+        print("Request timed out")
+        return {"status": False, "error": "Request timed out after 30 seconds"}
+    except requests.exceptions.RequestException as e:
+        print(f"Request failed: {e}")
+        return {"status": False, "error": f"Network error: {str(e)}"}
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+        return {"status": False, "error": f"Unexpected error: {str(e)}"}
+
+def test_api_connection_debug():
+    """Debug function to test basic API connectivity"""
+    try:
+        url = f"{BASE_URL}/health"
+        print(f"Testing API connection to: {url}")
+        response = requests.get(url, timeout=10)
+        print(f"Health check status: {response.status_code}")
+        return {"status": True, "message": f"API is reachable - Status: {response.status_code}"}
+    except Exception as e:
+        print(f"API connection failed: {e}")
+        return {"status": False, "error": f"Cannot reach API: {str(e)}"}
+
+def find_hospitals_google_places_fallback(token, lat, lon):
+    """Alternative hospital finder using a different approach"""
+    # This would use Google Places API as fallback
+    # For now, return a mock response for testing
+    return {
+        "status": True,
+        "data": [
+            {
+                "name": "Test Hospital (Mock Data)",
+                "type": "Hospital",
+                "latitude": lat + 0.001,
+                "longitude": lon + 0.001,
+                "phone": "+1-555-0123",
+                "address": "123 Test Street",
+                "google_maps_url": f"https://www.google.com/maps/search/?api=1&query=hospital+near+{lat},{lon}"
+            }
+        ],
+        "message": "Mock hospital data for testing"
+    }
 
 def get_appointments(token):
     """Fetches all appointments for the user."""
@@ -96,20 +149,41 @@ def get_appointments(token):
     response = requests.get(url, headers=headers)
     return response.json() if response.status_code == 200 else None
 
-def create_appointment(token, doctor_name, specialization, appointment_time: datetime):
+def create_appointment(token, doctor_name, specialization, reason, appointment_time: datetime):
     """Creates a new appointment."""
     url = f"{BASE_URL}/appointments/"
     headers = {"Authorization": f"Bearer {token}"}
     payload = {
-        "doctor_name": doctor_name,
-        "specialization": specialization,
-        # --- THIS IS THE FIX ---
-        # Convert the Python datetime object to an ISO 8601 formatted string
+        "doctor_name": doctor_name or None,
+        "specialization": specialization or None,
+        "reason": reason or None,
         "appointment_time": appointment_time.isoformat()
     }
     response = requests.post(url, json=payload, headers=headers)
-    # Return the full response to get error details if any
     return response.json()
+
+def update_appointment(token, appointment_id, **kwargs):
+    """Updates an appointment."""
+    url = f"{BASE_URL}/appointments/{appointment_id}"
+    headers = {"Authorization": f"Bearer {token}"}
+    # Remove None values and format datetime if present
+    payload = {}
+    for key, value in kwargs.items():
+        if value is not None:
+            if key == "appointment_time" and hasattr(value, 'isoformat'):
+                payload[key] = value.isoformat()
+            else:
+                payload[key] = value
+    
+    response = requests.patch(url, json=payload, headers=headers)
+    return response.json() if response.status_code == 200 else {"status": False, "error": response.text}
+
+def delete_appointment(token, appointment_id):
+    """Deletes an appointment."""
+    url = f"{BASE_URL}/appointments/{appointment_id}"
+    headers = {"Authorization": f"Bearer {token}"}
+    response = requests.delete(url, headers=headers)
+    return response.json() if response.status_code == 200 else {"status": False, "error": response.text}
 
 def upload_and_process_audio(token, appointment_id, audio_file):
     """Uploads an audio file for transcription and summarization."""

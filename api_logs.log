@@ -1,0 +1,476 @@
+2025-09-14 14:21:29,874 - main - INFO - Including API routers...
+2025-09-14 14:21:29,878 - main - INFO - All routers included successfully
+2025-09-14 14:21:29,879 - main - INFO - Starting SageAI Medical Advisor API...
+2025-09-14 14:21:29,889 - database - INFO - Successfully connected to MongoDB database: 'sageAI'
+2025-09-14 14:21:29,889 - main - INFO - Database connected successfully
+2025-09-14 14:21:44,086 - main - INFO - Request: POST http://127.0.0.1:8000/auth/login
+2025-09-14 14:21:44,293 - main - INFO - Response: 200 - 0.2068s
+2025-09-14 14:21:44,295 - main - INFO - Request: GET http://127.0.0.1:8000/users/me/profile
+2025-09-14 14:21:44,299 - main - INFO - Response: 200 - 0.0044s
+2025-09-14 14:21:44,309 - main - INFO - Request: GET http://127.0.0.1:8000/chat/history
+2025-09-14 14:21:44,314 - main - INFO - Response: 200 - 0.0042s
+2025-09-14 14:21:58,536 - main - INFO - Request: GET http://127.0.0.1:8000/health
+2025-09-14 14:21:58,542 - main - INFO - Response: 200 - 0.0062s
+2025-09-14 14:22:36,145 - main - INFO - Request: POST http://127.0.0.1:8000/auth/login
+2025-09-14 14:22:36,341 - main - INFO - Response: 200 - 0.1968s
+2025-09-14 14:22:36,343 - main - INFO - Request: GET http://127.0.0.1:8000/users/me/profile
+2025-09-14 14:22:36,345 - main - INFO - Response: 200 - 0.0019s
+2025-09-14 14:22:36,359 - main - INFO - Request: GET http://127.0.0.1:8000/chat/history
+2025-09-14 14:22:36,360 - main - INFO - Response: 200 - 0.0013s
+2025-09-14 14:23:02,850 - main - INFO - Request: POST http://127.0.0.1:8000/hospitals/nearby
+2025-09-14 14:23:02,856 - api.hospitals_router - INFO - Hospital search request from user lol@gmail.com for location 0.0, 0.0
+2025-09-14 14:23:02,856 - api.hospitals_router - INFO - Searching for hospitals near 0.0, 0.0 with radius 0.02
+2025-09-14 14:23:02,857 - api.hospitals_router - INFO - Overpass query: 
+    [out:json][timeout:30];
+    (
+      node["amenity"~"hospital|clinic|doctors|pharmacy"](-0.02,-0.02,0.02,0.02);
+      way["amenity"~"hospital|clinic|doctors|pharmacy"](-0.02,-0.02,0.02,0.02);
+      relation["amenity"~"hospital|clinic|doctors|pharmacy"](-0.02,-0.02,0.02,0.02);
+    );
+    out center;
+    
+2025-09-14 14:23:03,868 - api.hospitals_router - INFO - Overpass API returned 0 results
+2025-09-14 14:23:03,869 - api.hospitals_router - INFO - No results found with default radius, expanding search
+2025-09-14 14:23:03,869 - api.hospitals_router - INFO - Searching for hospitals near 0.0, 0.0 with radius 0.05
+2025-09-14 14:23:03,870 - api.hospitals_router - INFO - Overpass query: 
+    [out:json][timeout:30];
+    (
+      node["amenity"~"hospital|clinic|doctors|pharmacy"](-0.05,-0.05,0.05,0.05);
+      way["amenity"~"hospital|clinic|doctors|pharmacy"](-0.05,-0.05,0.05,0.05);
+      relation["amenity"~"hospital|clinic|doctors|pharmacy"](-0.05,-0.05,0.05,0.05);
+    );
+    out center;
+    
+2025-09-14 14:23:06,579 - api.hospitals_router - INFO - Overpass API returned 0 results
+2025-09-14 14:23:06,580 - api.hospitals_router - WARNING - No medical facilities found near 0.0, 0.0
+2025-09-14 14:23:06,580 - main - INFO - Response: 200 - 3.7300s
+2025-09-14 14:23:06,581 - main - INFO - Request: POST http://127.0.0.1:8000/hospitals/nearby
+2025-09-14 14:23:06,584 - api.hospitals_router - INFO - Hospital search request from user lol@gmail.com for location 0.0, 0.0
+2025-09-14 14:23:06,584 - api.hospitals_router - INFO - Searching for hospitals near 0.0, 0.0 with radius 0.02
+2025-09-14 14:23:06,584 - api.hospitals_router - INFO - Overpass query: 
+    [out:json][timeout:30];
+    (
+      node["amenity"~"hospital|clinic|doctors|pharmacy"](-0.02,-0.02,0.02,0.02);
+      way["amenity"~"hospital|clinic|doctors|pharmacy"](-0.02,-0.02,0.02,0.02);
+      relation["amenity"~"hospital|clinic|doctors|pharmacy"](-0.02,-0.02,0.02,0.02);
+    );
+    out center;
+    
+2025-09-14 14:23:07,322 - api.hospitals_router - INFO - Overpass API returned 0 results
+2025-09-14 14:23:07,323 - api.hospitals_router - INFO - No results found with default radius, expanding search
+2025-09-14 14:23:07,323 - api.hospitals_router - INFO - Searching for hospitals near 0.0, 0.0 with radius 0.05
+2025-09-14 14:23:07,323 - api.hospitals_router - INFO - Overpass query: 
+    [out:json][timeout:30];
+    (
+      node["amenity"~"hospital|clinic|doctors|pharmacy"](-0.05,-0.05,0.05,0.05);
+      way["amenity"~"hospital|clinic|doctors|pharmacy"](-0.05,-0.05,0.05,0.05);
+      relation["amenity"~"hospital|clinic|doctors|pharmacy"](-0.05,-0.05,0.05,0.05);
+    );
+    out center;
+    
+2025-09-14 14:23:08,001 - api.hospitals_router - INFO - Overpass API returned 0 results
+2025-09-14 14:23:08,002 - api.hospitals_router - WARNING - No medical facilities found near 0.0, 0.0
+2025-09-14 14:23:08,003 - main - INFO - Response: 200 - 1.4219s
+2025-09-14 14:23:08,003 - main - INFO - Request: POST http://127.0.0.1:8000/hospitals/nearby
+2025-09-14 14:23:08,006 - api.hospitals_router - INFO - Hospital search request from user lol@gmail.com for location 0.0, 0.0
+2025-09-14 14:23:08,007 - api.hospitals_router - INFO - Searching for hospitals near 0.0, 0.0 with radius 0.02
+2025-09-14 14:23:08,007 - api.hospitals_router - INFO - Overpass query: 
+    [out:json][timeout:30];
+    (
+      node["amenity"~"hospital|clinic|doctors|pharmacy"](-0.02,-0.02,0.02,0.02);
+      way["amenity"~"hospital|clinic|doctors|pharmacy"](-0.02,-0.02,0.02,0.02);
+      relation["amenity"~"hospital|clinic|doctors|pharmacy"](-0.02,-0.02,0.02,0.02);
+    );
+    out center;
+    
+2025-09-14 14:23:08,650 - api.hospitals_router - INFO - Overpass API returned 0 results
+2025-09-14 14:23:08,651 - api.hospitals_router - INFO - No results found with default radius, expanding search
+2025-09-14 14:23:08,651 - api.hospitals_router - INFO - Searching for hospitals near 0.0, 0.0 with radius 0.05
+2025-09-14 14:23:08,651 - api.hospitals_router - INFO - Overpass query: 
+    [out:json][timeout:30];
+    (
+      node["amenity"~"hospital|clinic|doctors|pharmacy"](-0.05,-0.05,0.05,0.05);
+      way["amenity"~"hospital|clinic|doctors|pharmacy"](-0.05,-0.05,0.05,0.05);
+      relation["amenity"~"hospital|clinic|doctors|pharmacy"](-0.05,-0.05,0.05,0.05);
+    );
+    out center;
+    
+2025-09-14 14:23:09,372 - api.hospitals_router - INFO - Overpass API returned 0 results
+2025-09-14 14:23:09,373 - api.hospitals_router - WARNING - No medical facilities found near 0.0, 0.0
+2025-09-14 14:23:09,373 - main - INFO - Response: 200 - 1.3700s
+2025-09-14 14:24:20,850 - main - INFO - Request: GET http://127.0.0.1:8000/chat/history
+2025-09-14 14:24:20,853 - main - INFO - Response: 200 - 0.0035s
+2025-09-14 14:24:21,720 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:24:21,725 - main - INFO - Response: 200 - 0.0046s
+2025-09-14 14:24:33,610 - main - INFO - Request: POST http://127.0.0.1:8000/appointments/
+2025-09-14 14:24:33,673 - main - INFO - Response: 201 - 0.0632s
+2025-09-14 14:24:33,710 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:24:33,712 - main - INFO - Response: 200 - 0.0023s
+2025-09-14 14:24:36,624 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:24:36,629 - main - INFO - Response: 200 - 0.0048s
+2025-09-14 14:24:36,665 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:24:36,667 - main - INFO - Response: 200 - 0.0021s
+2025-09-14 14:24:37,869 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:24:37,872 - main - INFO - Response: 200 - 0.0037s
+2025-09-14 14:24:41,091 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:24:41,094 - main - INFO - Response: 200 - 0.0037s
+2025-09-14 14:24:42,863 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:24:42,867 - main - INFO - Response: 200 - 0.0044s
+2025-09-14 14:24:44,016 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:24:44,020 - main - INFO - Response: 200 - 0.0042s
+2025-09-14 14:24:44,374 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:24:44,379 - main - INFO - Response: 200 - 0.0049s
+2025-09-14 14:24:46,384 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:24:46,390 - main - INFO - Response: 200 - 0.0051s
+2025-09-14 14:24:46,821 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:24:46,825 - main - INFO - Response: 200 - 0.0044s
+2025-09-14 14:24:48,138 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:24:48,142 - main - INFO - Response: 200 - 0.0035s
+2025-09-14 14:24:49,814 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:24:49,819 - main - INFO - Response: 200 - 0.0049s
+2025-09-14 14:32:36,972 - main - INFO - Shutting down SageAI Medical Advisor API...
+2025-09-14 14:32:36,974 - database - INFO - MongoDB connection closed.
+2025-09-14 14:32:38,264 - main - INFO - Including API routers...
+2025-09-14 14:32:38,268 - main - INFO - All routers included successfully
+2025-09-14 14:32:38,269 - main - INFO - Starting SageAI Medical Advisor API...
+2025-09-14 14:32:38,278 - database - INFO - Successfully connected to MongoDB database: 'sageAI'
+2025-09-14 14:32:38,278 - main - INFO - Database connected successfully
+2025-09-14 14:32:53,326 - main - INFO - Shutting down SageAI Medical Advisor API...
+2025-09-14 14:32:53,327 - database - INFO - MongoDB connection closed.
+2025-09-14 14:32:54,570 - main - INFO - Including API routers...
+2025-09-14 14:32:54,577 - main - INFO - All routers included successfully
+2025-09-14 14:32:54,577 - main - INFO - Starting SageAI Medical Advisor API...
+2025-09-14 14:32:54,586 - database - INFO - Successfully connected to MongoDB database: 'sageAI'
+2025-09-14 14:32:54,586 - main - INFO - Database connected successfully
+2025-09-14 14:33:13,174 - main - INFO - Shutting down SageAI Medical Advisor API...
+2025-09-14 14:33:13,177 - database - INFO - MongoDB connection closed.
+2025-09-14 14:33:14,428 - main - INFO - Including API routers...
+2025-09-14 14:33:14,433 - main - INFO - All routers included successfully
+2025-09-14 14:33:14,433 - main - INFO - Starting SageAI Medical Advisor API...
+2025-09-14 14:33:14,442 - database - INFO - Successfully connected to MongoDB database: 'sageAI'
+2025-09-14 14:33:14,442 - main - INFO - Database connected successfully
+2025-09-14 14:33:46,595 - main - INFO - Shutting down SageAI Medical Advisor API...
+2025-09-14 14:33:46,596 - database - INFO - MongoDB connection closed.
+2025-09-14 14:33:47,907 - main - INFO - Including API routers...
+2025-09-14 14:33:47,912 - main - INFO - All routers included successfully
+2025-09-14 14:33:47,912 - main - INFO - Starting SageAI Medical Advisor API...
+2025-09-14 14:33:47,918 - database - INFO - Successfully connected to MongoDB database: 'sageAI'
+2025-09-14 14:33:47,918 - main - INFO - Database connected successfully
+2025-09-14 14:33:49,536 - main - INFO - Shutting down SageAI Medical Advisor API...
+2025-09-14 14:33:49,537 - database - INFO - MongoDB connection closed.
+2025-09-14 14:33:50,571 - main - INFO - Including API routers...
+2025-09-14 14:33:50,575 - main - INFO - All routers included successfully
+2025-09-14 14:33:50,575 - main - INFO - Starting SageAI Medical Advisor API...
+2025-09-14 14:33:50,579 - database - INFO - Successfully connected to MongoDB database: 'sageAI'
+2025-09-14 14:33:50,579 - main - INFO - Database connected successfully
+2025-09-14 14:34:10,874 - main - INFO - Shutting down SageAI Medical Advisor API...
+2025-09-14 14:34:10,876 - database - INFO - MongoDB connection closed.
+2025-09-14 14:34:12,005 - main - INFO - Including API routers...
+2025-09-14 14:34:12,010 - main - INFO - All routers included successfully
+2025-09-14 14:34:12,010 - main - INFO - Starting SageAI Medical Advisor API...
+2025-09-14 14:34:12,019 - database - INFO - Successfully connected to MongoDB database: 'sageAI'
+2025-09-14 14:34:12,019 - main - INFO - Database connected successfully
+2025-09-14 14:35:26,917 - main - INFO - Request: POST http://127.0.0.1:8000/auth/login
+2025-09-14 14:35:27,107 - main - INFO - Response: 200 - 0.1903s
+2025-09-14 14:35:27,109 - main - INFO - Request: GET http://127.0.0.1:8000/users/me/profile
+2025-09-14 14:35:27,113 - main - INFO - Response: 200 - 0.0040s
+2025-09-14 14:35:27,122 - main - INFO - Request: GET http://127.0.0.1:8000/chat/history
+2025-09-14 14:35:27,124 - main - INFO - Response: 200 - 0.0018s
+2025-09-14 14:35:31,338 - main - INFO - Request: GET http://127.0.0.1:8000/chat/history
+2025-09-14 14:35:31,342 - main - INFO - Response: 200 - 0.0038s
+2025-09-14 14:35:32,348 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:35:32,350 - main - INFO - Response: 200 - 0.0022s
+2025-09-14 14:35:40,274 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:35:40,280 - main - INFO - Response: 200 - 0.0059s
+2025-09-14 14:35:40,316 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:35:40,318 - main - INFO - Response: 200 - 0.0024s
+2025-09-14 14:36:24,126 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:36:24,132 - main - INFO - Response: 200 - 0.0056s
+2025-09-14 14:36:24,172 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:36:24,174 - main - INFO - Response: 200 - 0.0029s
+2025-09-14 14:36:26,431 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:36:26,439 - main - INFO - Response: 200 - 0.0077s
+2025-09-14 14:36:26,474 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:36:26,477 - main - INFO - Response: 200 - 0.0034s
+2025-09-14 14:36:28,379 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:36:28,385 - main - INFO - Response: 200 - 0.0055s
+2025-09-14 14:36:28,393 - main - INFO - Request: DELETE http://127.0.0.1:8000/appointments/68c65e3f97093959d9e385e4
+2025-09-14 14:36:28,400 - main - INFO - Response: 200 - 0.0062s
+2025-09-14 14:36:28,425 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:36:28,428 - main - INFO - Response: 200 - 0.0029s
+2025-09-14 14:38:55,125 - main - INFO - Shutting down SageAI Medical Advisor API...
+2025-09-14 14:38:55,127 - database - INFO - MongoDB connection closed.
+2025-09-14 14:38:56,607 - main - INFO - Including API routers...
+2025-09-14 14:38:56,611 - main - INFO - All routers included successfully
+2025-09-14 14:38:56,612 - main - INFO - Starting SageAI Medical Advisor API...
+2025-09-14 14:38:56,623 - database - INFO - Successfully connected to MongoDB database: 'sageAI'
+2025-09-14 14:38:56,623 - main - INFO - Database connected successfully
+2025-09-14 14:39:12,138 - main - INFO - Request: POST http://127.0.0.1:8000/auth/login
+2025-09-14 14:39:12,348 - main - INFO - Response: 200 - 0.2104s
+2025-09-14 14:39:12,351 - main - INFO - Request: GET http://127.0.0.1:8000/users/me/profile
+2025-09-14 14:39:12,355 - main - INFO - Response: 200 - 0.0045s
+2025-09-14 14:39:12,363 - main - INFO - Request: GET http://127.0.0.1:8000/chat/history
+2025-09-14 14:39:12,365 - main - INFO - Response: 200 - 0.0017s
+2025-09-14 14:39:14,237 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:39:14,240 - main - INFO - Response: 200 - 0.0033s
+2025-09-14 14:39:18,171 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:39:18,175 - main - INFO - Response: 200 - 0.0040s
+2025-09-14 14:39:18,193 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:39:18,195 - main - INFO - Response: 200 - 0.0021s
+2025-09-14 14:39:42,065 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:39:42,071 - main - INFO - Response: 200 - 0.0062s
+2025-09-14 14:39:42,101 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:39:42,104 - main - INFO - Response: 200 - 0.0026s
+2025-09-14 14:40:00,588 - main - INFO - Request: POST http://127.0.0.1:8000/auth/login
+2025-09-14 14:40:00,786 - main - INFO - Response: 200 - 0.1972s
+2025-09-14 14:40:00,787 - main - INFO - Request: GET http://127.0.0.1:8000/users/me/profile
+2025-09-14 14:40:00,789 - main - INFO - Response: 200 - 0.0015s
+2025-09-14 14:40:00,798 - main - INFO - Request: GET http://127.0.0.1:8000/chat/history
+2025-09-14 14:40:00,799 - main - INFO - Response: 200 - 0.0016s
+2025-09-14 14:40:02,283 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:40:02,286 - main - INFO - Response: 200 - 0.0028s
+2025-09-14 14:40:04,920 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:40:04,924 - main - INFO - Response: 200 - 0.0045s
+2025-09-14 14:40:04,948 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:40:04,950 - main - INFO - Response: 200 - 0.0019s
+2025-09-14 14:40:44,610 - main - INFO - Request: POST http://127.0.0.1:8000/auth/login
+2025-09-14 14:40:44,808 - main - INFO - Response: 200 - 0.1977s
+2025-09-14 14:40:44,809 - main - INFO - Request: GET http://127.0.0.1:8000/users/me/profile
+2025-09-14 14:40:44,811 - main - INFO - Response: 200 - 0.0016s
+2025-09-14 14:40:44,820 - main - INFO - Request: GET http://127.0.0.1:8000/chat/history
+2025-09-14 14:40:44,821 - main - INFO - Response: 200 - 0.0012s
+2025-09-14 14:40:46,340 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:40:46,343 - main - INFO - Response: 200 - 0.0028s
+2025-09-14 14:40:48,267 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:40:48,271 - main - INFO - Response: 200 - 0.0041s
+2025-09-14 14:40:48,300 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:40:48,302 - main - INFO - Response: 200 - 0.0020s
+2025-09-14 14:51:29,142 - main - INFO - Shutting down SageAI Medical Advisor API...
+2025-09-14 14:51:29,143 - database - INFO - MongoDB connection closed.
+2025-09-14 14:51:30,675 - main - INFO - Including API routers...
+2025-09-14 14:51:30,680 - main - INFO - All routers included successfully
+2025-09-14 14:51:30,681 - main - INFO - Starting SageAI Medical Advisor API...
+2025-09-14 14:51:30,689 - database - INFO - Successfully connected to MongoDB database: 'sageAI'
+2025-09-14 14:51:30,689 - main - INFO - Database connected successfully
+2025-09-14 14:51:31,683 - main - INFO - Including API routers...
+2025-09-14 14:51:31,687 - main - INFO - All routers included successfully
+2025-09-14 14:51:31,687 - main - INFO - Starting SageAI Medical Advisor API...
+2025-09-14 14:51:31,692 - database - INFO - Successfully connected to MongoDB database: 'sageAI'
+2025-09-14 14:51:31,692 - main - INFO - Database connected successfully
+2025-09-14 14:51:51,391 - main - INFO - Shutting down SageAI Medical Advisor API...
+2025-09-14 14:51:51,392 - database - INFO - MongoDB connection closed.
+2025-09-14 14:51:52,561 - main - INFO - Including API routers...
+2025-09-14 14:51:52,565 - main - INFO - All routers included successfully
+2025-09-14 14:51:52,566 - main - INFO - Starting SageAI Medical Advisor API...
+2025-09-14 14:51:52,574 - database - INFO - Successfully connected to MongoDB database: 'sageAI'
+2025-09-14 14:51:52,574 - main - INFO - Database connected successfully
+2025-09-14 14:55:26,688 - main - INFO - Shutting down SageAI Medical Advisor API...
+2025-09-14 14:55:26,691 - database - INFO - MongoDB connection closed.
+2025-09-14 14:55:27,889 - main - INFO - Including API routers...
+2025-09-14 14:55:27,893 - main - INFO - All routers included successfully
+2025-09-14 14:55:27,894 - main - INFO - Starting SageAI Medical Advisor API...
+2025-09-14 14:55:27,904 - database - INFO - Successfully connected to MongoDB database: 'sageAI'
+2025-09-14 14:55:27,904 - main - INFO - Database connected successfully
+2025-09-14 14:58:46,553 - main - INFO - Shutting down SageAI Medical Advisor API...
+2025-09-14 14:58:46,556 - database - INFO - MongoDB connection closed.
+2025-09-14 14:58:47,759 - main - INFO - Including API routers...
+2025-09-14 14:58:47,764 - main - INFO - All routers included successfully
+2025-09-14 14:58:47,764 - main - INFO - Starting SageAI Medical Advisor API...
+2025-09-14 14:58:47,773 - database - INFO - Successfully connected to MongoDB database: 'sageAI'
+2025-09-14 14:58:47,773 - main - INFO - Database connected successfully
+2025-09-14 14:59:20,884 - main - INFO - Request: POST http://127.0.0.1:8000/auth/login
+2025-09-14 14:59:21,077 - main - INFO - Response: 200 - 0.1930s
+2025-09-14 14:59:21,079 - main - INFO - Request: GET http://127.0.0.1:8000/users/me/profile
+2025-09-14 14:59:21,084 - main - INFO - Response: 200 - 0.0049s
+2025-09-14 14:59:21,093 - main - INFO - Request: GET http://127.0.0.1:8000/chat/history
+2025-09-14 14:59:21,095 - main - INFO - Response: 200 - 0.0018s
+2025-09-14 14:59:23,248 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:59:23,251 - main - INFO - Response: 200 - 0.0030s
+2025-09-14 14:59:25,166 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:59:25,170 - main - INFO - Response: 200 - 0.0042s
+2025-09-14 14:59:25,193 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 14:59:25,195 - main - INFO - Response: 200 - 0.0019s
+2025-09-14 15:03:58,630 - main - INFO - Shutting down SageAI Medical Advisor API...
+2025-09-14 15:03:58,630 - database - INFO - MongoDB connection closed.
+2025-09-14 15:03:59,900 - main - INFO - Including API routers...
+2025-09-14 15:03:59,904 - main - INFO - All routers included successfully
+2025-09-14 15:03:59,905 - main - INFO - Starting SageAI Medical Advisor API...
+2025-09-14 15:03:59,962 - database - INFO - Successfully connected to MongoDB database: 'sageAI'
+2025-09-14 15:03:59,962 - main - INFO - Database connected successfully
+2025-09-14 15:04:18,157 - main - INFO - Shutting down SageAI Medical Advisor API...
+2025-09-14 15:04:18,160 - database - INFO - MongoDB connection closed.
+2025-09-14 15:04:19,245 - main - INFO - Including API routers...
+2025-09-14 15:04:19,249 - main - INFO - All routers included successfully
+2025-09-14 15:04:19,250 - main - INFO - Starting SageAI Medical Advisor API...
+2025-09-14 15:04:19,258 - database - INFO - Successfully connected to MongoDB database: 'sageAI'
+2025-09-14 15:04:19,258 - main - INFO - Database connected successfully
+2025-09-14 15:05:26,198 - main - INFO - Request: POST http://127.0.0.1:8000/auth/login
+2025-09-14 15:05:26,387 - main - INFO - Response: 200 - 0.1893s
+2025-09-14 15:05:26,389 - main - INFO - Request: GET http://127.0.0.1:8000/users/me/profile
+2025-09-14 15:05:26,393 - main - INFO - Response: 200 - 0.0045s
+2025-09-14 15:05:26,402 - main - INFO - Request: GET http://127.0.0.1:8000/chat/history
+2025-09-14 15:05:26,404 - main - INFO - Response: 200 - 0.0018s
+2025-09-14 15:05:27,888 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:05:27,891 - main - INFO - Response: 200 - 0.0032s
+2025-09-14 15:05:29,766 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:05:29,769 - main - INFO - Response: 200 - 0.0036s
+2025-09-14 15:05:29,798 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:05:29,800 - main - INFO - Response: 200 - 0.0023s
+2025-09-14 15:06:34,668 - main - INFO - Request: POST http://127.0.0.1:8000/auth/login
+2025-09-14 15:06:34,866 - main - INFO - Response: 200 - 0.1980s
+2025-09-14 15:06:34,868 - main - INFO - Request: GET http://127.0.0.1:8000/users/me/profile
+2025-09-14 15:06:34,870 - main - INFO - Response: 200 - 0.0015s
+2025-09-14 15:06:34,878 - main - INFO - Request: GET http://127.0.0.1:8000/chat/history
+2025-09-14 15:06:34,881 - main - INFO - Response: 200 - 0.0030s
+2025-09-14 15:06:36,126 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:06:36,129 - main - INFO - Response: 200 - 0.0030s
+2025-09-14 15:06:37,546 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:06:37,552 - main - INFO - Response: 200 - 0.0055s
+2025-09-14 15:06:37,583 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:06:37,585 - main - INFO - Response: 200 - 0.0027s
+2025-09-14 15:07:51,143 - main - INFO - Request: POST http://127.0.0.1:8000/auth/login
+2025-09-14 15:07:51,339 - main - INFO - Response: 200 - 0.1958s
+2025-09-14 15:07:51,340 - main - INFO - Request: GET http://127.0.0.1:8000/users/me/profile
+2025-09-14 15:07:51,342 - main - INFO - Response: 200 - 0.0015s
+2025-09-14 15:07:51,350 - main - INFO - Request: GET http://127.0.0.1:8000/chat/history
+2025-09-14 15:07:51,352 - main - INFO - Response: 200 - 0.0016s
+2025-09-14 15:07:52,532 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:07:52,535 - main - INFO - Response: 200 - 0.0034s
+2025-09-14 15:07:53,482 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:07:53,487 - main - INFO - Response: 200 - 0.0047s
+2025-09-14 15:07:53,517 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:07:53,519 - main - INFO - Response: 200 - 0.0022s
+2025-09-14 15:10:02,276 - main - INFO - Shutting down SageAI Medical Advisor API...
+2025-09-14 15:10:02,277 - database - INFO - MongoDB connection closed.
+2025-09-14 15:10:03,610 - main - INFO - Including API routers...
+2025-09-14 15:10:03,615 - main - INFO - All routers included successfully
+2025-09-14 15:10:03,615 - main - INFO - Starting SageAI Medical Advisor API...
+2025-09-14 15:10:03,626 - database - INFO - Successfully connected to MongoDB database: 'sageAI'
+2025-09-14 15:10:03,626 - main - INFO - Database connected successfully
+2025-09-14 15:10:31,563 - main - INFO - Request: POST http://127.0.0.1:8000/auth/login
+2025-09-14 15:10:31,757 - main - INFO - Response: 200 - 0.1944s
+2025-09-14 15:10:31,759 - main - INFO - Request: GET http://127.0.0.1:8000/users/me/profile
+2025-09-14 15:10:31,764 - main - INFO - Response: 200 - 0.0046s
+2025-09-14 15:10:31,772 - main - INFO - Request: GET http://127.0.0.1:8000/chat/history
+2025-09-14 15:10:31,774 - main - INFO - Response: 200 - 0.0019s
+2025-09-14 15:10:32,860 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:10:32,863 - main - INFO - Response: 200 - 0.0036s
+2025-09-14 15:10:34,807 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:10:34,810 - main - INFO - Response: 200 - 0.0038s
+2025-09-14 15:10:34,835 - main - INFO - Request: GET http://127.0.0.1:8000/chat/history
+2025-09-14 15:10:34,837 - main - INFO - Response: 200 - 0.0019s
+2025-09-14 15:11:22,363 - main - INFO - Request: GET http://127.0.0.1:8000/chat/history
+2025-09-14 15:11:22,366 - main - INFO - Response: 200 - 0.0029s
+2025-09-14 15:11:25,242 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:11:25,245 - main - INFO - Response: 200 - 0.0028s
+2025-09-14 15:11:26,182 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:11:26,186 - main - INFO - Response: 200 - 0.0040s
+2025-09-14 15:11:26,221 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:11:26,223 - main - INFO - Response: 200 - 0.0022s
+2025-09-14 15:36:17,348 - main - INFO - Shutting down SageAI Medical Advisor API...
+2025-09-14 15:36:17,352 - database - INFO - MongoDB connection closed.
+2025-09-14 15:36:18,707 - main - INFO - Including API routers...
+2025-09-14 15:36:18,712 - main - INFO - All routers included successfully
+2025-09-14 15:36:18,712 - main - INFO - Starting SageAI Medical Advisor API...
+2025-09-14 15:36:18,726 - database - INFO - Successfully connected to MongoDB database: 'sageAI'
+2025-09-14 15:36:18,726 - main - INFO - Database connected successfully
+2025-09-14 15:47:14,423 - main - INFO - Shutting down SageAI Medical Advisor API...
+2025-09-14 15:47:14,425 - database - INFO - MongoDB connection closed.
+2025-09-14 15:47:15,896 - main - INFO - Including API routers...
+2025-09-14 15:47:15,901 - main - INFO - All routers included successfully
+2025-09-14 15:47:15,901 - main - INFO - Starting SageAI Medical Advisor API...
+2025-09-14 15:47:15,911 - database - INFO - Successfully connected to MongoDB database: 'sageAI'
+2025-09-14 15:47:15,911 - main - INFO - Database connected successfully
+2025-09-14 15:49:27,657 - main - INFO - Shutting down SageAI Medical Advisor API...
+2025-09-14 15:49:27,660 - database - INFO - MongoDB connection closed.
+2025-09-14 15:49:37,236 - main - INFO - Including API routers...
+2025-09-14 15:49:37,241 - main - INFO - All routers included successfully
+2025-09-14 15:49:37,241 - main - INFO - Starting SageAI Medical Advisor API...
+2025-09-14 15:49:37,251 - database - INFO - Successfully connected to MongoDB database: 'sageAI'
+2025-09-14 15:49:37,251 - main - INFO - Database connected successfully
+2025-09-14 15:50:53,817 - main - INFO - Request: POST http://127.0.0.1:8000/auth/login
+2025-09-14 15:50:54,011 - main - INFO - Response: 200 - 0.1945s
+2025-09-14 15:50:54,012 - main - INFO - Request: GET http://127.0.0.1:8000/users/me/profile
+2025-09-14 15:50:54,016 - main - INFO - Response: 200 - 0.0036s
+2025-09-14 15:50:54,025 - main - INFO - Request: GET http://127.0.0.1:8000/chat/history
+2025-09-14 15:50:54,027 - main - INFO - Response: 200 - 0.0018s
+2025-09-14 15:50:55,667 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:50:55,671 - main - INFO - Response: 200 - 0.0041s
+2025-09-14 15:51:05,024 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:51:05,029 - main - INFO - Response: 200 - 0.0053s
+2025-09-14 15:51:05,051 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:51:05,053 - main - INFO - Response: 200 - 0.0017s
+2025-09-14 15:51:15,205 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:51:15,207 - main - INFO - Response: 200 - 0.0021s
+2025-09-14 15:51:22,551 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:51:22,555 - main - INFO - Response: 200 - 0.0039s
+2025-09-14 15:52:09,351 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:52:09,355 - main - INFO - Response: 200 - 0.0044s
+2025-09-14 15:52:10,231 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:52:10,236 - main - INFO - Response: 200 - 0.0052s
+2025-09-14 15:52:10,258 - main - INFO - Request: POST http://127.0.0.1:8000/appointments/68c682c9bf08a045ac1e70a0/process
+2025-09-14 15:52:17,512 - httpx - INFO - HTTP Request: POST https://api.assemblyai.com/v2/upload "HTTP/1.1 200 OK"
+2025-09-14 15:52:17,861 - httpx - INFO - HTTP Request: POST https://api.assemblyai.com/v2/transcript "HTTP/1.1 200 OK"
+2025-09-14 15:52:18,167 - httpx - INFO - HTTP Request: GET https://api.assemblyai.com/v2/transcript/749bf9f0-1a58-469d-9dbe-56aacb477c93 "HTTP/1.1 200 OK"
+2025-09-14 15:52:21,440 - httpx - INFO - HTTP Request: GET https://api.assemblyai.com/v2/transcript/749bf9f0-1a58-469d-9dbe-56aacb477c93 "HTTP/1.1 200 OK"
+2025-09-14 15:52:24,708 - httpx - INFO - HTTP Request: GET https://api.assemblyai.com/v2/transcript/749bf9f0-1a58-469d-9dbe-56aacb477c93 "HTTP/1.1 200 OK"
+2025-09-14 15:52:28,157 - httpx - INFO - HTTP Request: GET https://api.assemblyai.com/v2/transcript/749bf9f0-1a58-469d-9dbe-56aacb477c93 "HTTP/1.1 200 OK"
+2025-09-14 15:52:29,204 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-09-14 15:52:29,206 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-09-14 15:52:44,405 - main - INFO - Response: 200 - 34.1478s
+2025-09-14 15:52:46,446 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:52:46,449 - main - INFO - Response: 200 - 0.0030s
+2025-09-14 15:52:46,454 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/68c682c9bf08a045ac1e70a0/audio
+2025-09-14 15:52:46,457 - main - INFO - Response: 200 - 0.0022s
+2025-09-14 15:53:19,277 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:53:19,281 - main - INFO - Response: 200 - 0.0042s
+2025-09-14 15:53:19,292 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/68c682c9bf08a045ac1e70a0/audio
+2025-09-14 15:53:19,295 - main - INFO - Response: 200 - 0.0035s
+2025-09-14 15:53:19,347 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:53:19,348 - main - INFO - Response: 200 - 0.0015s
+2025-09-14 15:53:22,856 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:53:22,860 - main - INFO - Response: 200 - 0.0038s
+2025-09-14 15:53:22,891 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:53:22,893 - main - INFO - Response: 200 - 0.0022s
+2025-09-14 15:53:24,448 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:53:24,452 - main - INFO - Response: 200 - 0.0044s
+2025-09-14 15:53:24,462 - main - INFO - Request: DELETE http://127.0.0.1:8000/appointments/68c6670a38f93f21ea3584da
+2025-09-14 15:53:24,466 - main - INFO - Response: 200 - 0.0043s
+2025-09-14 15:53:24,488 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:53:24,489 - main - INFO - Response: 200 - 0.0018s
+2025-09-14 15:53:36,493 - main - INFO - Request: POST http://127.0.0.1:8000/appointments/
+2025-09-14 15:53:36,540 - main - INFO - Response: 201 - 0.0466s
+2025-09-14 15:53:36,568 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:53:36,570 - main - INFO - Response: 200 - 0.0022s
+2025-09-14 15:53:40,133 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:53:40,138 - main - INFO - Response: 200 - 0.0049s
+2025-09-14 15:53:40,168 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:53:40,170 - main - INFO - Response: 200 - 0.0020s
+2025-09-14 15:57:17,807 - main - INFO - Shutting down SageAI Medical Advisor API...
+2025-09-14 15:57:17,809 - database - INFO - MongoDB connection closed.
+2025-09-14 15:57:19,145 - main - INFO - Including API routers...
+2025-09-14 15:57:19,149 - main - INFO - All routers included successfully
+2025-09-14 15:57:19,149 - main - INFO - Starting SageAI Medical Advisor API...
+2025-09-14 15:57:19,159 - database - INFO - Successfully connected to MongoDB database: 'sageAI'
+2025-09-14 15:57:19,159 - main - INFO - Database connected successfully
+2025-09-14 15:57:41,141 - main - INFO - Request: POST http://127.0.0.1:8000/auth/login
+2025-09-14 15:57:41,337 - main - INFO - Response: 200 - 0.1964s
+2025-09-14 15:57:41,339 - main - INFO - Request: GET http://127.0.0.1:8000/users/me/profile
+2025-09-14 15:57:41,344 - main - INFO - Response: 200 - 0.0044s
+2025-09-14 15:57:41,352 - main - INFO - Request: GET http://127.0.0.1:8000/chat/history
+2025-09-14 15:57:41,354 - main - INFO - Response: 200 - 0.0017s
+2025-09-14 15:57:43,395 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:57:43,398 - main - INFO - Response: 200 - 0.0031s
+2025-09-14 15:57:46,123 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:57:46,128 - main - INFO - Response: 200 - 0.0050s
+2025-09-14 15:57:46,155 - main - INFO - Request: GET http://127.0.0.1:8000/appointments/
+2025-09-14 15:57:46,157 - main - INFO - Response: 200 - 0.0019s
+2025-09-14 15:57:56,091 - main - INFO - Shutting down SageAI Medical Advisor API...
+2025-09-14 15:57:56,091 - database - INFO - MongoDB connection closed.
+2025-09-14 15:57:57,357 - main - INFO - Including API routers...
+2025-09-14 15:57:57,362 - main - INFO - All routers included successfully
+2025-09-14 15:57:57,362 - main - INFO - Starting SageAI Medical Advisor API...
+2025-09-14 15:57:57,371 - database - INFO - Successfully connected to MongoDB database: 'sageAI'
+2025-09-14 15:57:57,371 - main - INFO - Database connected successfully
+2025-09-14 15:58:17,070 - main - INFO - Shutting down SageAI Medical Advisor API...
+2025-09-14 15:58:17,072 - database - INFO - MongoDB connection closed.

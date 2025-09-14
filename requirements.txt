@@ -13,3 +13,5 @@ streamlit
 streamlit-geolocation
 assemblyai
 streamlit-audiorec
+cryptography
+ipaddress
