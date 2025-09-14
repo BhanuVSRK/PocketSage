@@ -20,9 +20,11 @@ if 'messages' not in st.session_state:
     st.session_state.messages = []
 if 'is_new_user' not in st.session_state:
     st.session_state.is_new_user = False
-# --- NEW: Add location to session state ---
+# --- NEW: Add states for location and results ---
 if 'location' not in st.session_state:
     st.session_state.location = None
+if 'hospital_results' not in st.session_state:
+    st.session_state.hospital_results = None
 
 # --- UI Rendering Functions (login, profile, chat are unchanged) ---
 def render_login_page():
@@ -109,60 +111,64 @@ def render_profile_page():
         st.session_state.page = "chat"
         st.rerun()
 
-# --- UPDATED: Hospitals Page with Persistent State ---
+# --- UPDATED: Hospitals Page with a Robust Two-Step Flow ---
 def render_hospitals_page():
     st.title("🏥 Find Nearby Medical Facilities")
 
-    # The geolocation widget is now just for capturing the location
-    location_data = streamlit_geolocation()
+    # --- STEP 1: Acquire and Persist Location ---
+    if st.session_state.location is None:
+        st.info("Please use the widget below to grant location access.")
+        # This widget's only job is to get the location and trigger a rerun
+        location_data = streamlit_geolocation()
 
-    # --- FIX: Save the location to session_state as soon as we get it ---
-    if location_data and location_data.get('latitude'):
-        if st.session_state.location is None: # Only update if it's the first time
+        if location_data and location_data.get('latitude'):
+            # As soon as we get data, save it to the persistent state and rerun
             st.session_state.location = location_data
-            st.rerun() # Rerun to process the newly saved location
+            st.rerun()
+        elif location_data and location_data.get('error'):
+            st.error(f"Location Error: {location_data['error'].get('message')}. Please check browser permissions.")
 
-    # --- The main logic now relies on the persistent session_state ---
-    if st.session_state.location:
+    # --- STEP 2: Use the Persisted Location to Search ---
+    else:
         lat = st.session_state.location['latitude']
         lon = st.session_state.location['longitude']
-        
-        st.success(f"Using location: Latitude {lat:.4f}, Longitude {lon:.4f}")
-        
-        # Add a button to explicitly trigger the search
+        st.success(f"Location acquired: Latitude {lat:.4f}, Longitude {lon:.4f}")
+
         if st.button("Find Facilities Near Me", type="primary"):
             with st.spinner("Calling backend to find facilities..."):
                 response = find_hospitals_from_backend(st.session_state.token, lat, lon)
-
-                if not response or not response.get("status"):
-                    st.error("Backend API call failed. Please try again later.")
-                elif not response.get("data"):
-                    st.warning("No medical facilities found within a ~2km radius.")
+                if response and response.get("status"):
+                    st.session_state.hospital_results = response.get("data", [])
                 else:
-                    hospitals = response["data"]
-                    st.subheader(f"Found {len(hospitals)} facilities near you:")
-                    for place in hospitals:
-                        with st.container(border=True):
-                            st.subheader(place["name"])
-                            st.write(f"**Type:** {place['type']}")
-                            if place.get("address"):
-                                st.write(f"**Address:** {place['address']}")
-                            st.markdown(f"[Open in Google Maps]({place['google_maps_url']})")
-                            if place.get("phone"):
-                                st.markdown(f"[Call ({place['phone']})](tel:{place['phone']})")
+                    st.session_state.hospital_results = "error"
         
-        if st.button("Clear Location and Start Over"):
+        if st.button("Use a Different Location"):
             st.session_state.location = None
+            st.session_state.hospital_results = None
             st.rerun()
 
-    elif location_data and location_data.get('error'):
-        error_message = location_data['error'].get('message', 'An unknown error occurred.')
-        st.error(f"Could not get location: {error_message}. Please ensure you have granted location permissions in your browser.")
-    else:
-        st.info("Please click the 'Get Location' widget above and grant permission in your browser.")
+    # --- STEP 3: Display Results (reads from session state) ---
+    if st.session_state.hospital_results == "error":
+        st.error("Could not retrieve data from the backend. Please try again.")
+    elif isinstance(st.session_state.hospital_results, list):
+        if not st.session_state.hospital_results:
+            st.warning("No medical facilities were found in the immediate vicinity.")
+        else:
+            st.subheader(f"Found {len(st.session_state.hospital_results)} facilities near you:")
+            for place in st.session_state.hospital_results:
+                with st.container(border=True):
+                    st.subheader(place["name"])
+                    st.write(f"**Type:** {place['type']}")
+                    if place.get("address"):
+                        st.write(f"**Address:** {place['address']}")
+                    st.markdown(f"[Open in Google Maps]({place['google_maps_url']})")
+                    if place.get("phone"):
+                        st.markdown(f"[Call ({place['phone']})](tel:{place['phone']})")
 
     if st.button("⬅️ Back to Chat"):
         st.session_state.page = "chat"
+        st.session_state.hospital_results = None
+        st.session_state.location = None
         st.rerun()
 
 def render_chat_page():
